@@ -2,6 +2,8 @@
 
 using Arc.Threading;
 using Arc.Unit;
+using LP.Data;
+using LP;
 using Microsoft.Extensions.DependencyInjection;
 using Netsphere;
 using SimpleCommandLine;
@@ -34,6 +36,11 @@ public class ConsoleUnit : UnitBase, IUnitPreparable, IUnitExecutable
                 {// Log source/level -> Resolver() -> Output/filter
                     x.SetOutput<ConsoleAndFileLogger>();
                 });
+            });
+
+            this.SetupOptions<LPBase>((context, lpBase) =>
+            {// LPBase
+                lpBase.Initialize(new LPOptions(), true, "relay");
             });
 
             this.SetupOptions<FileLoggerOptions>((context, options) =>
