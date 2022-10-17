@@ -31,7 +31,7 @@ public class Program
             });
 
         var unit = builder.Build();
-        await unit.RunAsync(new(args));
+        await unit.RunAsync(args);
 
         ThreadCore.Root.Terminate();
         await ThreadCore.Root.WaitForTerminationAsync(-1); // Wait for the termination infinitely.

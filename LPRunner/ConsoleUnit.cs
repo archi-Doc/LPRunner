@@ -59,16 +59,14 @@ public class ConsoleUnit : UnitBase, IUnitPreparable, IUnitExecutable
         }
     }
 
-    public class Unit : BuiltUnit
+    public class Unit : NetControl.Unit
     {// Unit class for customizing behaviors.
-        public record Param(string[] Args);
-
         public Unit(UnitContext context)
             : base(context)
         {
         }
 
-        public async Task RunAsync(Param param)
+        public async Task RunAsync(string[] args)
         {
             // Create optional instances
             this.Context.CreateInstances();
@@ -77,10 +75,11 @@ public class ConsoleUnit : UnitBase, IUnitPreparable, IUnitExecutable
             // options.EnableTestFeatures = true;
 
             var p = new NetControl.Unit.Param(true, () => new ServerContext(), () => new CallContext(), "runner", options, false);
+            await this.RunStandalone(p);
             /*var unit = builder.Build();
             await unit.RunStandalone(p);*/
 
-            var netBase = this.Context.ServiceProvider.GetRequiredService<NetBase>();
+            /*var netBase = this.Context.ServiceProvider.GetRequiredService<NetBase>();
             netBase.SetParameter(p.EnableServer, p.NodeName, p.Options);
             netBase.AllowUnsafeConnection = p.AllowUnsafeConnection;
 
@@ -91,7 +90,7 @@ public class ConsoleUnit : UnitBase, IUnitPreparable, IUnitExecutable
             }
 
             this.Context.SendPrepare(new());
-            await this.Context.SendRunAsync(new(ThreadCore.Root)).ConfigureAwait(false);
+            await this.Context.SendRunAsync(new(ThreadCore.Root)).ConfigureAwait(false);*/
 
             var parserOptions = SimpleParserOptions.Standard with
             {
@@ -102,7 +101,7 @@ public class ConsoleUnit : UnitBase, IUnitPreparable, IUnitExecutable
 
             // Main
             // await SimpleParser.ParseAndRunAsync(this.Context.Commands, "example -string test", parserOptions);
-            await SimpleParser.ParseAndRunAsync(this.Context.Commands, param.Args, parserOptions);
+            await SimpleParser.ParseAndRunAsync(this.Context.Commands, args, parserOptions);
 
             await this.Context.SendTerminateAsync(new());
         }
