@@ -3,6 +3,7 @@
 using Arc.Unit;
 using LP;
 using LP.Data;
+using LP.NetServices;
 using Microsoft.Extensions.DependencyInjection;
 using Netsphere;
 using SimpleCommandLine;
@@ -25,6 +26,9 @@ public class ConsoleUnit : UnitBase, IUnitPreparable, IUnitExecutable
 
                 // Command
                 context.AddCommand(typeof(ConsoleCommand));
+
+                // Net Services
+                context.AddSingleton<IRemoteControlService, RemoteControlService>();
 
                 // Log filter
                 // context.AddSingleton<ExampleLogFilter>();
