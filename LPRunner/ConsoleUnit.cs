@@ -1,9 +1,8 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
-using Arc.Threading;
 using Arc.Unit;
-using LP.Data;
 using LP;
+using LP.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Netsphere;
 using SimpleCommandLine;
@@ -72,25 +71,8 @@ public class ConsoleUnit : UnitBase, IUnitPreparable, IUnitExecutable
             this.Context.CreateInstances();
 
             var options = new LP.Data.NetsphereOptions();
-            // options.EnableTestFeatures = true;
-
-            var p = new NetControl.Unit.Param(true, () => new ServerContext(), () => new CallContext(), "runner", options, false);
-            await this.RunStandalone(p);
-            /*var unit = builder.Build();
-            await unit.RunStandalone(p);*/
-
-            /*var netBase = this.Context.ServiceProvider.GetRequiredService<NetBase>();
-            netBase.SetParameter(p.EnableServer, p.NodeName, p.Options);
-            netBase.AllowUnsafeConnection = p.AllowUnsafeConnection;
-
-            var netControl = this.Context.ServiceProvider.GetRequiredService<NetControl>();
-            if (p.EnableServer)
-            {
-                netControl.SetupServer(p.NewServerContext, p.NewCallContext);
-            }
-
-            this.Context.SendPrepare(new());
-            await this.Context.SendRunAsync(new(ThreadCore.Root)).ConfigureAwait(false);*/
+            var param = new NetControl.Unit.Param(true, () => new ServerContext(), () => new CallContext(), "runner", options, true);
+            await this.RunStandalone(param);
 
             var parserOptions = SimpleParserOptions.Standard with
             {

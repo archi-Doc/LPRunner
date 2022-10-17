@@ -2,6 +2,7 @@
 
 using System;
 using System.Diagnostics;
+using Arc.Threading;
 using Arc.Unit;
 using LP;
 using Netsphere;
@@ -21,6 +22,12 @@ public class Runner
     {
         this.logger.TryGet()?.Log($"Runner start");
         this.logger.TryGet()?.Log($"Root directory: {this.lpBase.RootDirectory}");
+        this.logger.TryGet()?.Log("Press Ctrl+C to exit.");
+
+        while (!ThreadCore.Root.IsTerminated)
+        {
+            ThreadCore.Root.Sleep(1000);
+        }
 
         NodeAddress.TryParse("127.0.0.1:49152", out var nodeAddress);
         using (var terminal = this.netControl.Terminal.Create(nodeAddress))
