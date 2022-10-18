@@ -25,7 +25,7 @@ public class Runner
         Abort,
     }
 
-    public Runner(ILogger<Runner> logger, LPBase lPBase, NetControl netControl, IServiceProvider sp)
+    public Runner(ILogger<Runner> logger, LPBase lPBase, NetControl netControl)
     {
         this.logger = logger;
         this.lpBase = lPBase;
@@ -74,7 +74,6 @@ public class Runner
 
             ThreadCore.Root.Sleep(1000);
         }
-
 
         /*var process = new Process();
         process.StartInfo.FileName = "/bin/bash";
@@ -210,9 +209,9 @@ public class Runner
 
     public RunnerState State { get; private set; }
 
-    public RunnerInformation Information { get; private set; }
+    public RunnerInformation Information { get; private set; } = default!;
 
-    public NodeAddress NodeAddress { get; private set; }
+    public NodeAddress NodeAddress { get; private set; } = default!;
 
     private ILogger<Runner> logger;
     private LPBase lpBase;

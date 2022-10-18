@@ -27,6 +27,9 @@ public class ConsoleUnit : UnitBase, IUnitPreparable, IUnitExecutable
                 // Command
                 context.AddCommand(typeof(ConsoleCommand));
 
+                // Machines
+                context.AddTransient<RunnerMachine>();
+
                 // Net Services
                 context.AddSingleton<IRemoteControlService, RemoteControlService>();
 
